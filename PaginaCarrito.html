@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Miniso - Carrito</title>
+    <script>
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <style>
+        .btn-click-animation {
+            animation: scalePop 0.3s ease-in-out !important;
+        }
+
+        @keyframes scalePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        body, header, section, footer, div, button, input, details, a, img {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            transform: scale(1.08);
+        }
+
+        .search-btn:hover {
+            transform: scale(1) !important;
+        }
+
+        img {
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+
+        .no-hover:hover {
+            transform: scale(1) !important;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 overflow-x-hidden">
+
+    <header class="w-full bg-[#eeeeee] dark:bg-gray-800 shadow">
+        <div class="max-w-7xl mx-auto p-3">
+            <div class="flex items-center gap-2">
+
+                <!-- Logo Miniso -->
+                <a href="index.html" class="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img src="pictures/miniso.png" alt="Logo Miniso" class="w-full h-full object-cover">
+                </a>
+
+                <!-- Barra de búsqueda -->
+                <div class="flex flex-1">
+                    <input type="text" placeholder="Busca Blind Boxes Exclusivas"
+                           class="w-full border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-l-xl p-2 md:p-3 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm" />
+                    <button class="search-btn bg-[#e46868] dark:bg-[#c04040] px-3 rounded-r-xl hover:bg-[#d65757] dark:hover:bg-[#a03030] transition flex items-center justify-center flex-shrink-0">
+                        <img src="pictures/lupa.png" alt="Buscar" class="w-5 h-5 object-contain">
+                    </button>
+                </div>
+
+                <!-- Logos extra + Iconos -->
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <img src="pictures/logo_MinisoLove_web_818x414px_negro.png" alt="MinisoLove" class="w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+                    <img src="pictures/blind lab.png" alt="Blind Lab" class="w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                    <!-- Perfil -->
+                    <a href="PaginaLogin.html" class="relative inline-flex items-center justify-center group">
+                        <img src="pictures/perfil.png" alt="Perfil" class="w-7 h-7 object-contain group-hover:hidden">
+                        <img src="pictures/perfil-hover.png" alt="Perfil Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                    </a>
+
+                    <!-- Carrito -->
+                    <a href="PaginaCarrito.html" class="relative inline-flex items-center justify-center group">
+                        <img src="pictures/bolsa.png" alt="Carrito" class="w-7 h-7 object-contain group-hover:hidden">
+                        <img src="pictures/bolsa-hover.png" alt="Carrito Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                        <span class="cart-counter absolute -top-2 -right-2 bg-white dark:bg-gray-800 text-[#e46868] dark:text-[#ff8a8a] text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAV categorías -->
+        <nav class="bg-[#f8998d] dark:bg-gray-700 text-white relative">
+            <div class="max-w-7xl mx-auto flex items-center p-2 md:p-3 gap-3">
+                <button id="menuBtn" class="flex flex-col gap-1 flex-shrink-0">
+                    <span class="w-5 h-0.5 bg-white"></span>
+                    <span class="w-5 h-0.5 bg-white"></span>
+                    <span class="w-5 h-0.5 bg-white"></span>
+                </button>
+                <div class="flex gap-3 md:gap-5 overflow-x-auto font-semibold text-xs md:text-sm whitespace-nowrap pb-0.5 scrollbar-hide">
+                    <a href="PaginaTodaslascategorias.html" class="hover:underline flex-shrink-0">Todas las Categorías</a>
+                    <a href="PaginaHogar.html" class="hover:underline flex-shrink-0">Hogar</a>
+                    <a href="PaginaSaludyBelleza.html" class="hover:underline flex-shrink-0">Salud y Belleza</a>
+                    <a href="PaginaModa.html" class="hover:underline flex-shrink-0">Moda</a>
+                    <a href="PaginaJuguetes.html" class="hover:underline flex-shrink-0">Juguetes</a>
+                    <a href="PaginaTecnologia.html" class="hover:underline flex-shrink-0">Tecnología</a>
+                    <a href="PaginaOutlet.html" class="hover:underline flex-shrink-0 hidden sm:block">Outlet</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-[260px] bg-white dark:bg-gray-900 text-black dark:text-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+            <div class="p-5 font-bold text-lg border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <span>Menú</span>
+                <button id="closeSidebarBtn" class="text-[#e46868] text-2xl hover:opacity-80">&times;</button>
+            </div>
+            <div class="flex flex-col p-5 gap-4">
+                <a href="PaginaTodaslascategorias.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Todas las Categorías</a>
+                <a href="PaginaHogar.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Hogar</a>
+                <a href="PaginaSaludyBelleza.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Salud y Belleza</a>
+                <a href="PaginaModa.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Moda</a>
+                <a href="PaginaJuguetes.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Juguetes</a>
+                <a href="PaginaTecnologia.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Tecnología</a>
+                <a href="PaginaOutlet.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Outlet</a>
+            </div>
+            <div class="absolute bottom-5 left-0 w-full px-5">
+                <button id="darkModeToggle" class="flex items-center gap-2 w-full py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" />
+                        <path stroke="currentColor" stroke-width="2" d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                    </svg>
+                    Modo Oscuro
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full min-h-screen flex justify-center items-start py-10">
+        <div class="w-full max-w-[1400px] flex flex-wrap justify-center items-start gap-10">
+            <section class="w-full lg:w-[790px] flex flex-col items-center gap-[60px]">
+                <div class="flex flex-col gap-[25px] self-stretch w-full">
+                    <div class="flex justify-center items-center p-2.5">
+                        <span class="font-semibold text-[36px] text-center text-[#e46868] dark:text-[#ff8a8a]">MI BOLSA</span>
+                    </div>
+                    <div id="cartItemsContainer" class="flex flex-col gap-6"></div>
+                    <div class="flex justify-between items-center mt-6 border-t pt-6 border-gray-200 dark:border-gray-700">
+                        <span class="text-2xl font-bold text-[#e46868] dark:text-[#ff8a8a]">Total:</span>
+                        <span class="text-3xl font-extrabold text-[#e46868] dark:text-[#ff8a8a]">$<span id="cart-total-amount">0.00</span></span>
+                    </div>
+                    <div class="flex justify-end mt-6">
+                       <button id="checkoutBtn" onclick="procederAlPago()"
+    class="bg-[#e46868] dark:bg-[#c04040] text-white font-bold py-3 px-8 rounded-xl hover:bg-[#d65757] transition text-center">
+    PROCEDER AL PAGO
+</button>
+                    </div>
+                </div>
+            </section>
+            <aside class="flex flex-col gap-6 items-center justify-center">
+                <div class="flex items-center justify-center">
+                    <img class="w-[410px] h-[531px] object-cover bg-gray-200 dark:bg-gray-700 rounded-lg" src="pictures/ANINCIO.JPG"alt="Promo">
+                </div>
+                <div class="h-[386px] w-[430px]">
+                    <img class="w-full h-full object-cover bg-gray-200 dark:bg-gray-700 rounded-lg" src="pictures/Pochacco.webp" alt="Promo 2">
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="bg-[#f8998d] dark:bg-gray-800 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto text-center px-6 space-y-6">
+            <p class="text-lg">Miniso México. Todos los derechos reservados © 2026</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="hover:underline">Términos y Condiciones</a>
+                <a href="#" class="hover:underline">Aviso de Privacidad</a>
+            </div>
+            <p class="text-sm max-w-5xl mx-auto leading-7">Miniso.com.mx utiliza cookies a través de las que se obtienen datos personales de los clientes.</p>
+        </div>
+    </footer>
+
+    <script>
+        function getCart() {
+            return JSON.parse(localStorage.getItem("cart")) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+            document.querySelectorAll('.cart-counter').forEach(counter => {
+                if (counter) counter.textContent = totalItems;
+            });
+        }
+
+function procederAlPago() {
+    const cart = getCart();
+    if (cart.length === 0) {
+        alert("Tu carrito está vacío. Agrega productos antes de continuar.");
+        return;
+    }
+    window.location.href = "PaginaCheckout.html";
+}
+        function renderCartPage() {
+            const cart = getCart();
+            const cartContainer = document.getElementById('cartItemsContainer');
+            const totalSpan = document.getElementById('cart-total-amount');
+
+            if (!cartContainer) return;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="text-center py-12 bg-neutral-100 dark:bg-gray-800 rounded-xl border-2 border-[#f8998d] dark:border-[#ffaaaa]">
+                        <p class="text-xl text-gray-500 dark:text-gray-400">Tu carrito está vacío</p>
+                        <a href="PaginaTodaslascategorias.html" class="inline-block mt-4 bg-[#e46868] text-white px-6 py-2 rounded-lg hover:bg-[#d65757] transition">Seguir comprando</a>
+                    </div>`;
+                if (totalSpan) totalSpan.textContent = '0.00';
+                return;
+            }
+
+            cartContainer.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * (item.qty || 1);
+                subtotal += itemTotal;
+                const productDiv = document.createElement('div');
+                productDiv.className = 'flex items-center gap-3 bg-[#f4f4f4] dark:bg-gray-800 p-3 rounded-[15px] border-2 border-[#f8998d] dark:border-[#ffaaaa]';
+productDiv.innerHTML = `
+    <div class="flex-shrink-0 bg-[#ffafaf] dark:bg-[#8b3030] p-2 rounded-[12px] border-4 border-white dark:border-gray-700 w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] flex items-center justify-center">
+        <img src="${item.img}" class="w-full h-full object-cover rounded-[8px]" alt="${item.name}" onerror="this.src='https://via.placeholder.com/120x120?text=Producto'">
+    </div>
+    <div class="flex flex-col gap-2 flex-1 min-w-0">
+        <span class="font-bold text-[15px] sm:text-[18px] text-[#e46868] dark:text-[#ff8a8a] truncate">${item.name}</span>
+        <div class="flex items-center gap-1 text-yellow-400 text-base">★★★★★</div>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="font-extrabold text-[18px] sm:text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$${item.price.toFixed(2)}</span>
+            <div class="flex items-center border border-[#f8998d] rounded-[8px] overflow-hidden h-8">
+                <button class="cart-decr w-8 h-full bg-[#e46868] dark:bg-[#c04040] text-white text-xl hover:bg-[#d65757] transition" data-index="${index}">-</button>
+                <span class="w-8 text-center text-sm dark:text-white">${item.qty || 1}</span>
+                <button class="cart-incr w-8 h-full bg-[#e46868] dark:bg-[#c04040] text-white text-xl hover:bg-[#d65757] transition" data-index="${index}">+</button>
+            </div>
+            <button class="cart-remove text-[#e46868] dark:text-[#ff8a8a] text-xl hover:opacity-80" data-index="${index}">🗑</button>
+        </div>
+    </div>`;
+                cartContainer.appendChild(productDiv);
+            });
+
+            if (totalSpan) totalSpan.textContent = subtotal.toFixed(2);
+            attachCartItemEvents();
+        }
+
+        function attachCartItemEvents() {
+            document.querySelectorAll('.cart-incr').forEach(btn => btn.addEventListener('click', handleIncrement));
+            document.querySelectorAll('.cart-decr').forEach(btn => btn.addEventListener('click', handleDecrement));
+            document.querySelectorAll('.cart-remove').forEach(btn => btn.addEventListener('click', handleRemove));
+        }
+
+        function handleIncrement(event) {
+            const index = parseInt(event.currentTarget.dataset.index);
+            const cart = getCart();
+            if (cart[index]) { cart[index].qty = (cart[index].qty || 1) + 1; saveCart(cart); renderCartPage(); updateCartCounter(); }
+        }
+
+        function handleDecrement(event) {
+            const index = parseInt(event.currentTarget.dataset.index);
+            const cart = getCart();
+            if (cart[index]) {
+                if ((cart[index].qty || 1) > 1) { cart[index].qty -= 1; saveCart(cart); renderCartPage(); updateCartCounter(); }
+                else handleRemove(event);
+            }
+        }
+
+        function handleRemove(event) {
+            const index = parseInt(event.currentTarget.dataset.index);
+            const cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCartPage();
+            updateCartCounter();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            renderCartPage();
+            updateCartCounter();
+
+            const menuBtn = document.getElementById("menuBtn");
+            const sidebar = document.getElementById("sidebar");
+            const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+            const darkModeToggle = document.getElementById("darkModeToggle");
+
+            if (menuBtn && sidebar) {
+                menuBtn.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    sidebar.classList.remove("-translate-x-full");
+                });
+            }
+
+            if (closeSidebarBtn && sidebar) {
+                closeSidebarBtn.addEventListener("click", function () {
+                    sidebar.classList.add("-translate-x-full");
+                });
+            }
+
+            document.addEventListener("click", function (event) {
+                if (sidebar && !sidebar.classList.contains("-translate-x-full")) {
+                    if (!sidebar.contains(event.target) && event.target !== menuBtn && !menuBtn.contains(event.target)) {
+                        sidebar.classList.add("-translate-x-full");
+                    }
+                }
+            });
+
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener("click", function () {
+                    document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+                });
+            }
+
+            document.querySelectorAll("img").forEach(img => {
+                if (img.alt) img.title = img.alt;
+            });
+        });
+    </script>
+</body>
+</html>

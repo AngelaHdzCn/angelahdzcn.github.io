@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Miniso - Salud y Belleza</title>
+
+
+<script>
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <style>
+        /* Animación mejorada para el botón al hacer clic */
+        .btn-click-animation {
+            animation: scalePopAndColor 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+        }
+button:hover {
+    transform: scale(1.08);
+}
+
+/* Excluir el botón de búsqueda */
+.search-btn:hover {
+    transform: scale(1) !important;
+}
+img {
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.05);
+}
+.no-hover:hover {
+    transform: scale(1) !important;
+}
+
+        @keyframes scalePopAndColor {
+            0% {
+                transform: scale(1);
+                background-color: #e46868;
+            }
+
+            40% {
+                transform: scale(1.25);
+                background-color: #2ecc71;
+            }
+
+            70% {
+                transform: scale(0.95);
+                background-color: #27ae60;
+            }
+
+            100% {
+                transform: scale(1);
+                background-color: #e46868;
+            }
+        }
+
+        /* Versión para modo oscuro */
+        .dark .btn-click-animation {
+            animation: scalePopAndColorDark 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+        }
+
+        @keyframes scalePopAndColorDark {
+            0% {
+                transform: scale(1);
+                background-color: #c04040;
+            }
+
+            40% {
+                transform: scale(1.25);
+                background-color: #2ecc71;
+            }
+
+            70% {
+                transform: scale(0.95);
+                background-color: #27ae60;
+            }
+
+            100% {
+                transform: scale(1);
+                background-color: #c04040;
+            }
+        }
+
+         /* TRANSICIONES MÁS CONTROLADAS */
+        body,
+        header,
+        section,
+        footer,
+        div,
+        button,
+        input,
+        details {
+            transition:
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900">
+    <header class="w-full bg-[#eeeeee] dark:bg-gray-800 shadow">
+
+    <div class="max-w-7xl mx-auto p-3">
+        <div class="flex items-center gap-2">
+
+            <!-- Logo Miniso -->
+            <a href="index.html" class="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img src="pictures/miniso.png" alt="Logo Miniso" class="w-full h-full object-cover">
+            </a>
+
+            <!-- Barra de búsqueda -->
+            <div class="flex flex-1">
+                <input type="text" placeholder="Busca Blind Boxes Exclusivas"
+                       class="w-full border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-l-xl p-2 md:p-3 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm" />
+                <button class="search-btn bg-[#e46868] dark:bg-[#c04040] px-3 rounded-r-xl hover:bg-[#d65757] dark:hover:bg-[#a03030] transition flex items-center justify-center flex-shrink-0">
+                    <img src="pictures/lupa.png" alt="Buscar" class="w-5 h-5 object-contain">
+                </button>
+            </div>
+
+            <!-- Logos extra + Iconos -->
+            <div class="flex items-center gap-2 flex-shrink-0">
+
+                <!-- Logo extra 1 -->
+                <img src="pictures/logo_MinisoLove_web_818x414px_negro.png" alt="logo_MinisoLove_web_818x414px_negro.png" class="w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                <!-- Logo extra 2 -->
+                <img src="pictures/blind lab.png" alt="blind lab.png" class="w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                <!-- Perfil -->
+                <a href="PaginaLogin.html" class="relative inline-flex items-center justify-center group">
+                    <img src="pictures/perfil.png" alt="Perfil" class="w-7 h-7 object-contain group-hover:hidden">
+                    <img src="pictures/perfil-hover.png" alt="Perfil Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                </a>
+
+                <!-- Carrito -->
+                <a href="PaginaCarrito.html" class="relative inline-flex items-center justify-center group">
+                    <img src="pictures/bolsa.png" alt="Carrito" class="w-7 h-7 object-contain group-hover:hidden">
+                    <img src="pictures/bolsa-hover.png" alt="Carrito Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                    <span class="cart-counter absolute -top-2 -right-2 bg-white dark:bg-gray-800 text-[#e46868] dark:text-[#ff8a8a] text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV categorías -->
+    <nav class="bg-[#f8998d] dark:bg-gray-700 text-white relative">
+        <div class="max-w-7xl mx-auto flex items-center p-2 md:p-3 gap-3">
+            <button id="menuBtn" class="flex flex-col gap-1 flex-shrink-0">
+                <span class="w-5 h-0.5 bg-white"></span>
+                <span class="w-5 h-0.5 bg-white"></span>
+                <span class="w-5 h-0.5 bg-white"></span>
+            </button>
+            <div class="flex gap-3 md:gap-5 overflow-x-auto font-semibold text-xs md:text-sm whitespace-nowrap pb-0.5 scrollbar-hide">
+                <a href="PaginaTodaslascategorias.html" class="hover:underline flex-shrink-0">Todas las Categorías</a>
+                <a href="PaginaHogar.html" class="hover:underline flex-shrink-0">Hogar</a>
+                <a href="PaginaSaludyBelleza.html" class="hover:underline flex-shrink-0">Salud y Belleza</a>
+                <a href="PaginaModa.html" class="hover:underline flex-shrink-0">Moda</a>
+                <a href="PaginaJuguetes.html" class="hover:underline flex-shrink-0">Juguetes</a>
+                <a href="PaginaTecnologia.html" class="hover:underline flex-shrink-0">Tecnología</a>
+                <a href="PaginaOutlet.html" class="hover:underline flex-shrink-0 hidden sm:block">Outlet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-[260px] bg-white dark:bg-gray-900 text-black dark:text-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <div class="p-5 font-bold text-lg border-b border-gray-200 dark:border-gray-700">Menú</div>
+        <div class="flex flex-col p-5 gap-4">
+            <a href="PaginaTodaslascategorias.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Todas las Categorías</a>
+            <a href="PaginaHogar.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Hogar</a>
+            <a href="PaginaSaludyBelleza.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Salud y Belleza</a>
+            <a href="PaginaModa.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Moda</a>
+            <a href="PaginaJuguetes.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Juguetes</a>
+            <a href="PaginaTecnologia.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Tecnología</a>
+            <a href="PaginaOutlet.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Outlet</a>
+        </div>
+        <div class="absolute bottom-5 left-0 w-full px-5">
+            <button id="darkModeToggle" class="flex items-center gap-2 w-full py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" />
+                    <path stroke="currentColor" stroke-width="2" d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                </svg>
+                Modo Oscuro
+            </button>
+        </div>
+    </div>
+
+</header>
+
+    <body>
+        <main class="py-10 px-4">
+            <h1 class="text-5xl font-bold text-[#e46868] dark:text-[#ff8a8a] text-center mb-10">Tecnolog&iacute;a</h1>
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Paquete pilas alcalinas AAA 8 piezas" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Paquete pilas alcalinas AAA 8 piezas</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★★☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$78.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Paquete pilas alcalinas AAA 8 piezas"
+                                        data-price="78.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Mousepad Star Wars poliéster negro" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Mousepad Star Wars poliéster negro</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★☆☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$179.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Mousepad Star Wars poliéster negro"
+                                        data-price="179.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Audífonos de cable morados 3.5mm 120cm" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Audífonos de cable morados 3.5mm 120cm</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★★★</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$69.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Audífonos de cable morados 3.5mm 120cm"
+                                        data-price="69.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Funda para audífonos con colgante Star Wars" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Funda para audífonos con colgante Star Wars</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★☆☆☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$99.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Funda para audífonos con colgante Star Wars"
+                                        data-price="99.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Mouse inalámbrico recargable rosa silencioso" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Mouse inalámbrico recargable rosa silencioso</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★★★</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$159.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Mouse inalámbrico recargable rosa silencioso"
+                                        data-price="159.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Audífonos de cable Sanrio entrada 3.5mm" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Audífonos de cable Sanrio entrada 3.5mm</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★☆☆☆☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$139.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Audífonos de cable Sanrio entrada 3.5mm"
+                                        data-price="139.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Mousepad con almohadilla gris 100% poliéster" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Mousepad con almohadilla gris 100% poliéster</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★★☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$99.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Mousepad con almohadilla gris 100% poliéster"
+                                        data-price="99.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Teclado inalámbrico negro sintético" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Teclado inalámbrico negro sintético</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★★★</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$199.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Teclado inalámbrico negro sintético"
+                                        data-price="199.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Audífonos inalámbricos con estuche color negro" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Audífonos inalámbricos con estuche color negro</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★★★☆☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$399.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Audífonos inalámbricos con estuche color negro"
+                                        data-price="399.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-[274px] min-h-[435px] flex flex-col bg-[#f4f4f4] dark:bg-gray-800 rounded-[13px] border-[3px] border-[#f8998d] dark:border-[#ffaaaa] overflow-hidden">
+                        <div class="flex justify-center items-center p-5">
+                            <div class="w-[202px] h-[191px] bg-[#ffafaf] dark:bg-[#8b3030] rounded-[16px] border-4 border-white dark:border-gray-700 flex items-center justify-center">
+                                <img src="pictures\Pochacco.webp" class="w-full h-full object-cover rounded-[12px]" alt="Mousepad mini negro 100% poliéster" onerror="this.src='https://via.placeholder.com/202x191?text=Producto'">
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-between flex-1 px-4 pb-5">
+                            <div class="space-y-4">
+                                <h3 class="font-bold text-[18px] leading-tight text-[#e46868] dark:text-[#ff8a8a] text-center">Mousepad mini negro 100% poliéster</h3>
+                                <div class="flex justify-center text-yellow-400 text-xl">★☆☆☆☆</div>
+                                <div class="text-center"><span class="font-extrabold text-[22px] text-[#e46868] dark:text-[#ff8a8a]">$89.90</span></div>
+                            </div>
+                            <div class="flex justify-center mt-6">
+                                <button class="add-to-cart-btn bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold px-6 py-3 rounded-xl"
+                                        data-name="Mousepad mini negro 100% poliéster"
+                                        data-price="89.90"
+                                        data-img="pictures\Pochacco.webp">
+                                    A MI BOLSA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+
+        <footer class="bg-[#f8998d] text-white py-12 mt-16">
+
+            <div class="max-w-7xl mx-auto text-center px-6 space-y-6">
+
+                <p class="text-lg">
+                    Miniso México. Todos los derechos reservados © 2026
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-6">
+
+                    <a href="#" class="hover:underline">
+                        Términos y Condiciones
+                    </a>
+
+                    <a href="#" class="hover:underline">
+                        Aviso de Privacidad
+                    </a>
+
+                </div>
+
+                <p class="text-sm max-w-5xl mx-auto leading-7">
+                    Miniso.com.mx utiliza cookies a través de las que se obtienen datos
+                    personales de los clientes. Puedes deshabilitar estas cookies desde
+                    la configuración de tu navegador. Si continúas navegando en el sitio,
+                    entendemos que aceptas el uso de las cookies descrito en nuestro
+                    Aviso de Privacidad.
+                </p>
+
+            </div>
+
+        </footer>
+
+        <script>
+            // ==================== FUNCIONES DEL CARRITO ====================
+
+            function getCart() {
+                return JSON.parse(localStorage.getItem("cart")) || [];
+            }
+
+            function saveCart(cart) {
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+
+            function updateCartCounter() {
+                const cart = getCart();
+                const totalItems = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+                const counters = document.querySelectorAll('.cart-counter');
+                counters.forEach(counter => {
+                    if (counter) counter.textContent = totalItems;
+                });
+            }
+
+            // Función para agregar al carrito CON ANIMACIÓN de agrandar/achicar y cambio de color
+            function addToCart(buttonElement, name, price, img) {
+                // Guardar colores originales
+                const isDarkMode = document.documentElement.classList.contains('dark');
+                const originalBgColor = isDarkMode ? '#c04040' : '#e46868';
+
+                // Añadir la clase de animación (que incluye el cambio de color)
+                buttonElement.classList.add('btn-click-animation');
+
+                // Cambiar el texto temporalmente
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = '✓ AGREGADO';
+
+                // Remover la animación después de que termine
+                setTimeout(() => {
+                    buttonElement.classList.remove('btn-click-animation');
+                    // Restaurar el texto original
+                    buttonElement.textContent = originalText;
+                    // Asegurar que el color vuelva al original
+                    buttonElement.style.backgroundColor = originalBgColor;
+                }, 400);
+
+                // Lógica del carrito (igual que antes)
+                const cart = getCart();
+                const existing = cart.find(item => item.name === name);
+
+                if (existing) {
+                    existing.qty = (existing.qty || 1) + 1;
+                } else {
+                    cart.push({ name: name, price: price, img: img, qty: 1 });
+                }
+
+                saveCart(cart);
+                updateCartCounter();
+            }
+
+            // ==================== INICIALIZACIÓN ====================
+            document.addEventListener("DOMContentLoaded", () => {
+                // Inicializar contador del carrito
+                updateCartCounter();
+
+                // Configurar todos los botones con la clase 'add-to-cart-btn'
+                const buttons = document.querySelectorAll('.add-to-cart-btn');
+                buttons.forEach(btn => {
+                    // Remover event listeners anteriores si existen
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+
+                    // Agregar nuevo event listener
+                    newBtn.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        const name = this.getAttribute('data-name');
+                        const price = parseFloat(this.getAttribute('data-price'));
+                        const img = this.getAttribute('data-img');
+                        addToCart(this, name, price, img);
+                    });
+                });
+
+                // ==================== MENÚ DE HAMBURGUESA ====================
+                const menuBtn = document.getElementById("menuBtn");
+                const sidebar = document.getElementById("sidebar");
+                const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+                const darkModeToggle = document.getElementById("darkModeToggle");
+
+                if (menuBtn && sidebar) {
+                    menuBtn.addEventListener("click", (event) => {
+                        event.stopPropagation();
+                        sidebar.classList.remove("-translate-x-full");
+                    });
+                }
+
+                if (closeSidebarBtn && sidebar) {
+                    closeSidebarBtn.addEventListener("click", () => {
+                        sidebar.classList.add("-translate-x-full");
+                    });
+                }
+
+                document.addEventListener("click", (event) => {
+                    if (sidebar && !sidebar.classList.contains("-translate-x-full")) {
+                        if (!sidebar.contains(event.target) && event.target !== menuBtn && !menuBtn.contains(event.target)) {
+                            sidebar.classList.add("-translate-x-full");
+                        }
+                    }
+                });
+
+                // ==================== MODO OSCURO ====================
+                const toggleDarkMode = () => {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('darkMode', 'false');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('darkMode', 'true');
+                    }
+                };
+
+             
+                if (darkModeToggle) {
+                    darkModeToggle.addEventListener("click", toggleDarkMode);
+                }
+const allImages = document.querySelectorAll("img");
+
+allImages.forEach(img => {
+    if (img.alt) {
+        img.title = img.alt;
+    }
+});
+            });
+        </script>
+    </body>
+</html>

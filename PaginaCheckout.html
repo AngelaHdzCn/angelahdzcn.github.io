@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Miniso - Checkout | Hogar</title>
+
+<script>
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <style>
+        /* Animación mejorada para botones (scale + sombra) */
+        .btn-click-animation {
+            animation: btnScalePop 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1) !important;
+        }
+button:hover {
+    transform: scale(1.08);
+}
+
+/* Excluir el botón de búsqueda */
+.search-btn:hover {
+    transform: scale(1) !important;
+}
+img {
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.05);
+}
+.no-hover:hover {
+    transform: scale(1) !important;
+}
+
+        @keyframes btnScalePop {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(228, 104, 104, 0);
+            }
+
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 8px 20px rgba(228, 104, 104, 0.3);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(228, 104, 104, 0);
+            }
+        }
+
+         /* TRANSICIONES MÁS CONTROLADAS */
+        body,
+        header,
+        section,
+        footer,
+        div,
+        button,
+        input,
+        details {
+            transition:
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        /* remover flechas de inputs number (para mantenerlos visualmente limpios) */
+        input.no-spinner::-webkit-outer-spin-button,
+        input.no-spinner::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input.no-spinner {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        /* hover sutil en inputs */
+        input:focus, button:focus {
+            outline: none;
+            ring: 2px solid #e46868;
+        }
+
+        /* Modal de error personalizado */
+        .error-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .error-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.3s ease;
+        }
+
+        .dark .error-modal-content {
+            background: #1f2937;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-modal button {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #e46868;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+            .error-modal button:hover {
+                background-color: #d65757;
+            }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 overflow-x-hidden">
+
+    <header class="w-full bg-[#eeeeee] dark:bg-gray-800 shadow">
+
+    <div class="max-w-7xl mx-auto p-3">
+        <div class="flex items-center gap-2">
+
+            <!-- Logo Miniso -->
+            <a href="index.html" class="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img src="pictures/miniso.png" alt="Logo Miniso" class="w-full h-full object-cover">
+            </a>
+
+            <!-- Barra de búsqueda -->
+            <div class="flex flex-1">
+                <input type="text" placeholder="Busca Blind Boxes Exclusivas"
+                       class="w-full border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-l-xl p-2 md:p-3 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm" />
+                <button class="search-btn bg-[#e46868] dark:bg-[#c04040] px-3 rounded-r-xl hover:bg-[#d65757] dark:hover:bg-[#a03030] transition flex items-center justify-center flex-shrink-0">
+                    <img src="pictures/lupa.png" alt="Buscar" class="w-5 h-5 object-contain">
+                </button>
+            </div>
+
+            <!-- Logos extra + Iconos -->
+            <div class="flex items-center gap-2 flex-shrink-0">
+
+                <!-- Logo extra 1 -->
+                <img src="pictures/logo_MinisoLove_web_818x414px_negro.png" alt="logo_MinisoLove_web_818x414px_negro.png" class="w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                <!-- Logo extra 2 -->
+                <img src="pictures/blind lab.png" alt="blind lab.png" class="w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                <!-- Perfil -->
+                <a href="PaginaLogin.html" class="relative inline-flex items-center justify-center group">
+                    <img src="pictures/perfil.png" alt="Perfil" class="w-7 h-7 object-contain group-hover:hidden">
+                    <img src="pictures/perfil-hover.png" alt="Perfil Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                </a>
+
+                <!-- Carrito -->
+                <a href="PaginaCarrito.html" class="relative inline-flex items-center justify-center group">
+                    <img src="pictures/bolsa.png" alt="Carrito" class="w-7 h-7 object-contain group-hover:hidden">
+                    <img src="pictures/bolsa-hover.png" alt="Carrito Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                    <span class="cart-counter absolute -top-2 -right-2 bg-white dark:bg-gray-800 text-[#e46868] dark:text-[#ff8a8a] text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV categorías -->
+    <nav class="bg-[#f8998d] dark:bg-gray-700 text-white relative">
+        <div class="max-w-7xl mx-auto flex items-center p-2 md:p-3 gap-3">
+            <button id="menuBtn" class="flex flex-col gap-1 flex-shrink-0">
+                <span class="w-5 h-0.5 bg-white"></span>
+                <span class="w-5 h-0.5 bg-white"></span>
+                <span class="w-5 h-0.5 bg-white"></span>
+            </button>
+            <div class="flex gap-3 md:gap-5 overflow-x-auto font-semibold text-xs md:text-sm whitespace-nowrap pb-0.5 scrollbar-hide">
+                <a href="PaginaTodaslascategorias.html" class="hover:underline flex-shrink-0">Todas las Categorías</a>
+                <a href="PaginaHogar.html" class="hover:underline flex-shrink-0">Hogar</a>
+                <a href="PaginaSaludyBelleza.html" class="hover:underline flex-shrink-0">Salud y Belleza</a>
+                <a href="PaginaModa.html" class="hover:underline flex-shrink-0">Moda</a>
+                <a href="PaginaJuguetes.html" class="hover:underline flex-shrink-0">Juguetes</a>
+                <a href="PaginaTecnologia.html" class="hover:underline flex-shrink-0">Tecnología</a>
+                <a href="PaginaOutlet.html" class="hover:underline flex-shrink-0 hidden sm:block">Outlet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-[260px] bg-white dark:bg-gray-900 text-black dark:text-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <div class="p-5 font-bold text-lg border-b border-gray-200 dark:border-gray-700">Menú</div>
+        <div class="flex flex-col p-5 gap-4">
+            <a href="PaginaTodaslascategorias.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Todas las Categorías</a>
+            <a href="PaginaHogar.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Hogar</a>
+            <a href="PaginaSaludyBelleza.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Salud y Belleza</a>
+            <a href="PaginaModa.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Moda</a>
+            <a href="PaginaJuguetes.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Juguetes</a>
+            <a href="PaginaTecnologia.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Tecnología</a>
+            <a href="PaginaOutlet.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Outlet</a>
+        </div>
+        <div class="absolute bottom-5 left-0 w-full px-5">
+            <button id="darkModeToggle" class="flex items-center gap-2 w-full py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" />
+                    <path stroke="currentColor" stroke-width="2" d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                </svg>
+                Modo Oscuro
+            </button>
+        </div>
+    </div>
+
+</header>
+
+    <main class="w-full px-6 py-10">
+        <div class="max-w-[1400px] mx-auto flex flex-col xl:flex-row justify-center items-start gap-8">
+            <!-- COLUMNA IZQUIERDA: Formulario de datos y envío -->
+            <div class="w-full max-w-[812px] flex flex-col gap-10">
+                <!-- Paso 1: Datos personales -->
+                <section class="flex flex-col gap-2">
+                    <h1 class="text-center text-[36px] font-semibold text-[#e46868] dark:text-[#ff8a8a]">Tus Datos</h1>
+                    <div class="bg-neutral-100 dark:bg-gray-800 border-[3px] border-[#e46868] dark:border-[#ff8a8a] rounded-[10px] p-6 flex flex-col gap-8">
+                        <h2 class="text-[32px] font-semibold text-[#f8998d] dark:text-[#ffaaaa]">Paso 1</h2>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[24px] text-[#e46868] dark:text-[#ff8a8a] font-light">Correo</span>
+                            <span id="userEmailDisplay" class="text-[24px] text-[#e46868] dark:text-[#ff8a8a] font-light">usuario@gmail.com</span>
+                        </div>
+                        <div class="flex flex-col gap-6">
+                            <div>
+                                <label class="font-semibold text-[20px] dark:text-white">Nombre</label>
+                                <input type="text" id="nombreInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" placeholder="Escribe tu nombre" />
+                            </div>
+                            <div>
+                                <label class="font-semibold text-[20px] dark:text-white">Apellido</label>
+                                <input type="text" id="apellidoInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" placeholder="Apellido" />
+                            </div>
+                            <div>
+                                <label class="font-semibold text-[20px] dark:text-white">Teléfono</label>
+                                <input type="text" id="telefonoInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white numeric-only" placeholder="Solo números (ej: 5512345678)" maxlength="12" />
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Solo dígitos, máximo 12 números</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-4 dark:text-gray-300">
+                            <label class="flex items-center gap-4"><input type="checkbox" class="w-5 h-5 accent-[#e46868]" /> <span>Quiero recibir ofertas y sorpresas directo en mi inbox y whatsapp</span></label>
+                            <label class="flex items-center gap-4"><input type="checkbox" id="terminosCheckbox" class="w-5 h-5 accent-[#e46868]" checked /> <span>Acepto Términos y Condiciones</span></label>
+                            <label class="flex items-center gap-4"><input type="checkbox" id="privacidadCheckbox" class="w-5 h-5 accent-[#e46868]" checked /> <span>Acepto Aviso de Privacidad</span></label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Paso 2: Envío / Recolección + Dirección completa -->
+                <section class="bg-neutral-100 dark:bg-gray-800 border-[3px] border-[#e46868] dark:border-[#ff8a8a] rounded-[10px] p-6 flex flex-col gap-10">
+                    <div>
+                        <div class="flex items-center gap-4">
+                            <h2 class="text-[32px] font-semibold text-[#f8998d] dark:text-[#ffaaaa]">Paso 2</h2>
+                            <h3 class="text-[24px] font-semibold dark:text-white">Envío / Recolección</h3>
+                        </div>
+                        <p class="text-[20px] font-light dark:text-gray-300 mt-2">Selecciona el método de entrega para tu pedido</p>
+                    </div>
+                    <div class="flex gap-6">
+                        <button id="btnEnvioDomicilio" class="flex-1 bg-[#f8998d] dark:bg-[#c04040] rounded-[10px] py-4 text-white font-semibold text-[20px] hover:bg-[#e46868] transition btn-with-animation">Envío a Domicilio</button>
+                        <button id="btnRecogerTienda" class="flex-1 border-[3px] border-[#e46868] dark:border-[#ff8a8a] rounded-[10px] py-4 text-[#e46868] dark:text-[#ff8a8a] font-semibold text-[20px] hover:bg-[#e46868] hover:text-white transition btn-with-animation">Recoger en Tienda</button>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <label class="font-semibold text-[20px] dark:text-white">Código Postal</label>
+                        <div class="flex gap-4">
+                            <input type="text" id="codigoPostalInput" placeholder="Código Postal (solo números)" class="flex-1 h-[50px] rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white numeric-only" maxlength="5" />
+                            <button class="text-[#e46868] dark:text-[#ff8a8a] font-semibold hover:underline btn-with-animation">No sé mi código postal</button>
+                        </div>
+                    </div>
+                    <div class="bg-[#ffafaf] dark:bg-[#8b3030] border border-[#e46868] dark:border-[#ff8a8a] rounded-[10px] p-4 flex justify-between items-center">
+                        <div class="flex items-center gap-4"><input type="radio" checked class="accent-[#e46868] w-5 h-5" /><span class="font-bold text-[20px] dark:text-white">En hasta 8 días hábiles</span></div><span class="font-semibold text-[24px] dark:text-white">$58.00</span>
+                    </div>
+                    <h3 class="text-center text-[20px] font-semibold dark:text-white">Complete su dirección de entrega</h3>
+                    <div class="flex flex-col gap-6">
+                        <div>
+                            <label class="font-semibold text-[20px] dark:text-white">Calle</label>
+                            <input type="text" id="calleInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" />
+                        </div>
+                        <div>
+                            <label class="font-semibold text-[20px] dark:text-white">Número Exterior</label>
+                            <input type="text" id="numExteriorInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" />
+                        </div>
+                        <div>
+                            <label class="font-semibold text-[20px] dark:text-white">Número interior e indicaciones</label>
+                            <input type="text" id="interiorInput" placeholder="Opcional" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" />
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div>
+                                <label class="font-semibold text-[20px] dark:text-white">Colonia</label>
+                                <input type="text" id="coloniaInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" />
+                            </div>
+                            <div>
+                                <label class="font-semibold text-[20px] dark:text-white">Destinatario</label>
+                                <input type="text" id="destinatarioInput" class="w-full h-[42px] mt-2 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] px-4 outline-none bg-white dark:bg-gray-700 dark:text-white" />
+                            </div>
+                        </div>
+                    </div>
+                    <button id="irAlPagoBtn" class="bg-[#e46868] hover:bg-[#d65757] transition text-white font-semibold text-[20px] py-4 rounded-[10px] btn-with-animation">Ir al Pago</button>
+                </section>
+            </div>
+
+            <!-- COLUMNA DERECHA: Resumen del pedido + cupón -->
+            <div class="w-full xl:w-[454px] flex flex-col gap-8">
+                <section class="w-full bg-neutral-100 dark:bg-gray-800 p-4 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a]">
+                    <h2 class="text-2xl font-bold text-[#e46868] dark:text-[#ff8a8a] mb-4 text-center">Tu Pedido</h2>
+                    <div id="checkoutItemsContainer" class="flex flex-col gap-4">
+                        <p class="text-center text-gray-500 dark:text-gray-400 py-4">Cargando productos...</p>
+                    </div>
+                </section>
+
+                <section class="w-full bg-neutral-100 dark:bg-gray-800 rounded-[10px] border-[3px] border-[#e46868] dark:border-[#ff8a8a] p-4 flex flex-col gap-8">
+                    <div class="flex flex-col gap-4">
+                        <h2 class="text-[32px] font-semibold text-center text-[#f8998d] dark:text-[#ffaaaa]">Cupón de descuento</h2>
+                        <div class="flex gap-4">
+                            <input type="text" id="codigoCupon" placeholder="Código" class="flex-1 bg-white dark:bg-gray-700 border-4 border-[#f8998d] dark:border-[#ffaaaa] rounded-[10px] px-4 text-[20px] outline-none dark:text-white" />
+                            <button id="aplicarCuponBtn" class="bg-[#f8998d] dark:bg-[#c04040] text-white font-semibold px-6 rounded-[10px] text-[20px] hover:bg-[#e46868] transition btn-with-animation">Aceptar</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4 text-[24px] font-semibold dark:text-white">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span>$<span id="checkout-subtotal">0.00</span></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Gastos de envío</span>
+                            <span>$58.00</span>
+                        </div>
+                        <div class="flex justify-between text-[#f8998d] dark:text-[#ffaaaa]">
+                            <span>Puntos MinisoLove*</span>
+                            <span>224</span>
+                        </div>
+                        <div class="mt-6 text-right text-[24px] font-bold text-[#e46868] dark:text-[#ff8a8a]">
+                            Total: $<span id="cartTotal">0.00</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#f8998d] dark:bg-[#c04040] rounded-[10px] p-4 text-center">
+                        <span class="text-[24px] font-semibold text-[#e46868] dark:text-white">¡Ganaste un descuento de envío!</span>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#f8998d] dark:bg-gray-800 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto text-center px-6 space-y-6">
+            <p class="text-lg">Miniso México. Todos los derechos reservados © 2026</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="hover:underline">Términos y Condiciones</a>
+                <a href="#" class="hover:underline">Aviso de Privacidad</a>
+            </div>
+            <p class="text-sm max-w-5xl mx-auto leading-7">Miniso.com.mx utiliza cookies a través de las que se obtienen datos personales de los clientes.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ====================== VERIFICACIÓN DE SESIÓN ======================
+        function isUserLoggedIn() {
+            return localStorage.getItem("isLoggedIn") === "true";
+        }
+
+        function getLoggedInUserEmail() {
+            return localStorage.getItem("userEmail") || "";
+        }
+
+        // Mostrar modal de error de sesión
+        function showLoginRequiredModal() {
+            // Crear modal
+            const modal = document.createElement('div');
+            modal.className = 'error-modal';
+            modal.innerHTML = `
+                    <div class="error-modal-content">
+                        <div class="error-icon">🔒</div>
+                        <h2 class="text-2xl font-bold mb-2 text-[#e46868]">Sesión requerida</h2>
+                        <p class="mb-4 text-gray-600 dark:text-gray-300">Debes iniciar sesión para completar tu compra.</p>
+                        <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">Por favor, inicia sesión con tu cuenta Miniso.</p>
+                        <button id="modalLoginBtn" class="bg-[#e46868] hover:bg-[#d65757] transition">Iniciar sesión</button>
+                        <button id="modalCloseBtn" class="ml-3 bg-gray-400 hover:bg-gray-500 transition">Cerrar</button>
+                    </div>
+                `;
+            document.body.appendChild(modal);
+
+            // Evento para cerrar modal
+            const closeModal = () => modal.remove();
+            document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+            document.getElementById('modalLoginBtn').addEventListener('click', () => {
+                window.location.href = 'PaginaLogin.html';
+            });
+            // Cerrar al hacer clic fuera del contenido
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        // ====================== ANIMACIÓN GLOBAL DE BOTONES ======================
+        function applyButtonAnimation(button) {
+            if (!button) return;
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                this.classList.add('btn-click-animation');
+                setTimeout(() => {
+                    this.classList.remove('btn-click-animation');
+                }, 280);
+            });
+        }
+
+        // ====================== VALIDACIÓN DE CAMPOS NUMÉRICOS ======================
+        function setupNumericInputs() {
+            const numericFields = document.querySelectorAll('.numeric-only');
+            numericFields.forEach(field => {
+                field.classList.add('no-spinner');
+                field.addEventListener('input', function (e) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+                field.addEventListener('keypress', function (e) {
+                    if (e.key < '0' || e.key > '9') {
+                        e.preventDefault();
+                    }
+                });
+            });
+        }
+
+        // ==================== FUNCIONES CARRITO Y LOCALSTORAGE ====================
+        function getCart() {
+            const stored = localStorage.getItem("cart");
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (e) { return []; }
+            }
+            // Datos de ejemplo para demostración visual (productos ficticios)
+            return [
+                { id: 1, name: "Blind Box Dino Serie", price: 299, qty: 2, img: "https://via.placeholder.com/100x100?text=Blind+Box" },
+                { id: 2, name: "Almohada Miniso", price: 189, qty: 1, img: "https://via.placeholder.com/100x100?text=Almohada" }
+            ];
+        }
+
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+            const counters = document.querySelectorAll('.cart-counter');
+            counters.forEach(counter => {
+                if (counter) counter.textContent = totalItems;
+            });
+        }
+
+        function renderCheckoutItems() {
+            const cart = getCart();
+            const checkoutContainer = document.getElementById('checkoutItemsContainer');
+            const subtotalSpan = document.getElementById('checkout-subtotal');
+            const totalSpan = document.getElementById('cartTotal');
+            if (!checkoutContainer) return;
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.qty || 1)), 0);
+            const shipping = 58.00;
+            const finalTotal = subtotal + shipping;
+            if (cart.length === 0) {
+                checkoutContainer.innerHTML = `<p class="text-center text-gray-500 dark:text-gray-400 py-8">No hay productos en el carrito. <a href="PaginaTodaslascategorias.html" class="text-[#e46868] hover:underline">Ir a comprar</a></p>`;
+                if (subtotalSpan) subtotalSpan.textContent = '0.00';
+                if (totalSpan) totalSpan.textContent = '0.00';
+                return;
+            }
+            checkoutContainer.innerHTML = '';
+            cart.forEach(item => {
+                const itemTotal = item.price * (item.qty || 1);
+                const productDiv = document.createElement('div');
+                productDiv.className = 'bg-white dark:bg-gray-700 p-4 rounded-xl border dark:border-gray-600 mb-4 flex gap-4';
+                productDiv.innerHTML = `
+                        <img src="${item.img}" class="w-24 h-24 object-cover rounded-lg" alt="${item.name}" onerror="this.src='https://via.placeholder.com/100x100?text=Producto'">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg">${item.name}</h3>
+                            <p class="dark:text-gray-300">Cantidad: ${item.qty || 1}</p>
+                            <p class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-xl">$${itemTotal.toFixed(2)}</p>
+                        </div>
+                    `;
+                checkoutContainer.appendChild(productDiv);
+            });
+            if (subtotalSpan) subtotalSpan.textContent = subtotal.toFixed(2);
+            if (totalSpan) totalSpan.textContent = finalTotal.toFixed(2);
+        }
+
+        function mostrarAlertaPago() {
+            // PRIMERO: VERIFICAR SESIÓN
+            if (!isUserLoggedIn()) {
+                showLoginRequiredModal();
+                return false;
+            }
+
+            const nombre = document.getElementById('nombreInput')?.value.trim() || '';
+            const apellido = document.getElementById('apellidoInput')?.value.trim() || '';
+            const telefono = document.getElementById('telefonoInput')?.value.trim() || '';
+            const cp = document.getElementById('codigoPostalInput')?.value.trim() || '';
+            const calle = document.getElementById('calleInput')?.value.trim() || '';
+            const terminosCheck = document.getElementById('terminosCheckbox')?.checked;
+            const privacidadCheck = document.getElementById('privacidadCheckbox')?.checked;
+
+            if (!nombre || !apellido) {
+                alert("❌ Por favor completa Nombre y Apellido.");
+                return false;
+            }
+            if (!telefono) {
+                alert("❌ El teléfono es obligatorio y solo números.");
+                return false;
+            }
+            if (!cp || cp.length < 4) {
+                alert("❌ Código postal inválido. Debe tener al menos 4 dígitos numéricos.");
+                return false;
+            }
+            if (!calle) {
+                alert("❌ Ingresa la calle de tu dirección.");
+                return false;
+            }
+            if (!terminosCheck) {
+                alert("❌ Debes aceptar los Términos y Condiciones.");
+                return false;
+            }
+            if (!privacidadCheck) {
+                alert("❌ Debes aceptar el Aviso de Privacidad.");
+                return false;
+            }
+
+            const userEmail = getLoggedInUserEmail();
+            alert(`✅ ¡Pedido completado exitosamente, ${nombre} ${apellido}!\n📧 Se enviará la confirmación a: ${userEmail}\n\n🎉 ¡Gracias por tu compra en Miniso!`);
+            return true;
+        }
+
+        // Actualizar email del usuario logueado en la interfaz
+        function updateUserEmailDisplay() {
+            const emailDisplay = document.getElementById('userEmailDisplay');
+            if (emailDisplay) {
+                if (isUserLoggedIn()) {
+                    const userEmail = getLoggedInUserEmail();
+                    emailDisplay.textContent = userEmail || "usuario@miniso.com";
+                } else {
+                    emailDisplay.textContent = "No has iniciado sesión";
+                    emailDisplay.classList.add('text-gray-500', 'dark:text-gray-400');
+                }
+            }
+        }
+
+        // ==================== INICIALIZACIÓN PRINCIPAL ====================
+        document.addEventListener("DOMContentLoaded", function () {
+            renderCheckoutItems();
+            updateCartCounter();
+            setupNumericInputs();
+            updateUserEmailDisplay();
+
+            // Aplicar animación a TODOS los botones
+            const allBtns = document.querySelectorAll('button, .btn-with-animation');
+            allBtns.forEach(btn => {
+                applyButtonAnimation(btn);
+            });
+
+            // Botones específicos adicionales
+            const extraButtons = ['#irAlPagoBtn', '#aplicarCuponBtn', '#btnEnvioDomicilio', '#btnRecogerTienda'];
+            extraButtons.forEach(sel => {
+                const btnEl = document.querySelector(sel);
+                if (btnEl) applyButtonAnimation(btnEl);
+            });
+
+            document.querySelectorAll('header button, header a.relative').forEach(btn => applyButtonAnimation(btn));
+
+            // Evento botón Ir al Pago con validación de sesión
+            const irPago = document.getElementById('irAlPagoBtn');
+            if (irPago) {
+                irPago.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    mostrarAlertaPago();
+                });
+            }
+
+            // MODO OSCURO
+            const darkModeToggle = document.getElementById("darkModeToggle");
+           
+            
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener("click", function () {
+                    document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+                });
+            }
+
+            // MENÚ HAMBURGUESA
+            const menuBtn = document.getElementById("menuBtn");
+            const sidebar = document.getElementById("sidebar");
+            const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+            if (menuBtn && sidebar) {
+                menuBtn.addEventListener("click", (e) => { e.stopPropagation(); sidebar.classList.remove("-translate-x-full"); });
+            }
+            if (closeSidebarBtn && sidebar) {
+                closeSidebarBtn.addEventListener("click", () => { sidebar.classList.add("-translate-x-full"); });
+            }
+            document.addEventListener("click", function (event) {
+                if (sidebar && !sidebar.classList.contains("-translate-x-full")) {
+                    if (!sidebar.contains(event.target) && event.target !== menuBtn && !menuBtn?.contains(event.target)) {
+                        sidebar.classList.add("-translate-x-full");
+                    }
+                }
+            });
+
+            // Simular cupón
+            const aplicarCupon = document.getElementById('aplicarCuponBtn');
+            if (aplicarCupon) {
+                aplicarCupon.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const cuponInput = document.getElementById('codigoCupon');
+                    if (cuponInput.value.trim().toUpperCase() === "MINISO10") {
+                        alert("🎉 Cupón aplicado: 10% de descuento para tu próxima compra");
+                    } else {
+                        alert("❌ Cupón no válido. Prueba con MINISO10");
+                    }
+                });
+            }
+
+const allImages = document.querySelectorAll("img");
+
+allImages.forEach(img => {
+    if (img.alt) {
+        img.title = img.alt;
+    }
+});
+
+            // Métodos de envío/tienda
+            const btnDomicilio = document.getElementById('btnEnvioDomicilio');
+            const btnTienda = document.getElementById('btnRecogerTienda');
+            if (btnDomicilio) btnDomicilio.addEventListener('click', () => alert("🚚 Has seleccionado Envío a domicilio"));
+            if (btnTienda) btnTienda.addEventListener('click', () => alert("🏬 Recoger en tienda seleccionado. Podrás recoger en sucursal más cercana."));
+        });
+    </script>
+</body>
+</html>

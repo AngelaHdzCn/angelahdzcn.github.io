@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Miniso - Hogar</title>
+
+    <script>
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+
+    <style>
+        .btn-click-animation {
+            animation: scalePopAndColor 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes scalePopAndColor {
+            0% { transform: scale(1); background-color: #e46868; }
+            40% { transform: scale(1.25); background-color: #2ecc71; }
+            70% { transform: scale(0.95); background-color: #27ae60; }
+            100% { transform: scale(1); background-color: #e46868; }
+        }
+
+        .dark .btn-click-animation {
+            animation: scalePopAndColorDark 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+        }
+
+        @keyframes scalePopAndColorDark {
+            0% { transform: scale(1); background-color: #c04040; }
+            40% { transform: scale(1.25); background-color: #2ecc71; }
+            70% { transform: scale(0.95); background-color: #27ae60; }
+            100% { transform: scale(1); background-color: #c04040; }
+        }
+
+        body, header, section, footer, div, button, input, details {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+button:hover {
+    transform: scale(1.08);
+}
+
+/* Excluir el botón de búsqueda */
+.search-btn:hover {
+    transform: scale(1) !important;
+}
+img {
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.05);
+}
+.no-hover:hover {
+    transform: scale(1) !important;
+}
+
+
+        .carrusel-container {
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        .carrusel-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .carrusel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carrusel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #e46868;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .carrusel-btn:hover {
+            background-color: #d65757;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carrusel-btn-left { left: 0; }
+        .carrusel-btn-right { right: 0; }
+
+        .carrusel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .carrusel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #cccccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carrusel-dot.active {
+            background-color: #e46868;
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        .product-card {
+            flex: 0 0 auto;
+            width: 280px;
+        }
+
+        @media (max-width: 640px) {
+            .carrusel-container {
+                padding: 0 40px;
+            }
+            .product-card {
+                width: calc(100vw - 140px);
+            }
+        }
+
+        .btn-added-state {
+            background-color: #2ecc71 !important;
+            transform: scale(1.05);
+            transition: all 0.2s ease;
+        }
+
+        .dark .btn-added-state {
+            background-color: #27ae60 !important;
+        }
+
+
+details .faq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+details[open] .faq-content {
+    max-height: 300px;
+}
+
+    </style>
+</head>
+
+
+<body class="bg-white dark:bg-gray-900 overflow-x-hidden">
+
+   <header class="w-full bg-[#eeeeee] dark:bg-gray-800 shadow">
+
+    <div class="max-w-7xl mx-auto p-3">
+        <div class="flex items-center gap-2">
+
+            <!-- Logo Miniso -->
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img src="pictures/miniso.png" alt="Logo Miniso" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="flex flex-1">
+                <input type="text" placeholder="Busca Blind Boxes Exclusivas"
+                       class="w-full border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-l-xl p-2 md:p-3 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm" />
+                <button class="search-btn bg-[#e46868] dark:bg-[#c04040] px-3 rounded-r-xl hover:bg-[#d65757] dark:hover:bg-[#a03030] transition flex items-center justify-center flex-shrink-0">
+    <img src="pictures/lupa.png" alt="Buscar" class="w-5 h-5 object-contain">
+</button>
+            </div>
+
+            <!-- Logos extra + Iconos -->
+            <div class="flex items-center gap-2 flex-shrink-0">
+
+                <!-- Logo extra 1 -->
+                <img src="pictures/logo_MinisoLove_web_818x414px_negro.png" alt="logo_MinisoLove_web_818x414px_negro.png" class=" w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                <!-- Logo extra 2 -->
+                <img src="pictures/blind lab.png" alt="blind lab.png" class=" w-8 h-8 md:w-10 md:h-10 object-contain flex-shrink-0">
+
+                <!-- Perfil -->
+                <a href="PaginaLogin.html" class="relative inline-flex items-center justify-center group">
+                    <img src="pictures/perfil.png" alt="Perfil" class="w-7 h-7 object-contain group-hover:hidden">
+                    <img src="pictures/perfil-hover.png" alt="Perfil Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                </a>
+
+                <!-- Carrito -->
+                <a href="PaginaCarrito.html" class="relative inline-flex items-center justify-center group">
+                    <img src="pictures/bolsa.png" alt="Carrito" class="w-7 h-7 object-contain group-hover:hidden">
+                    <img src="pictures/bolsa-hover.png" alt="Carrito Hover" class="w-7 h-7 object-contain hidden group-hover:block">
+                    <span class="cart-counter absolute -top-2 -right-2 bg-white dark:bg-gray-800 text-[#e46868] dark:text-[#ff8a8a] text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV categorías -->
+    <nav class="bg-[#f8998d] dark:bg-gray-700 text-white relative">
+        <div class="max-w-7xl mx-auto flex items-center p-2 md:p-3 gap-3">
+            <button id="menuBtn" class="flex flex-col gap-1 flex-shrink-0">
+                <span class="w-5 h-0.5 bg-white"></span>
+                <span class="w-5 h-0.5 bg-white"></span>
+                <span class="w-5 h-0.5 bg-white"></span>
+            </button>
+            <div class="flex gap-3 md:gap-5 overflow-x-auto font-semibold text-xs md:text-sm whitespace-nowrap pb-0.5 scrollbar-hide">
+                <a href="PaginaTodaslascategorias.html" class="hover:underline flex-shrink-0">Todas las Categorías</a>
+                <a href="PaginaHogar.html" class="hover:underline flex-shrink-0">Hogar</a>
+                <a href="PaginaSaludyBelleza.html" class="hover:underline flex-shrink-0">Salud y Belleza</a>
+                <a href="PaginaModa.html" class="hover:underline flex-shrink-0">Moda</a>
+                <a href="PaginaJuguetes.html" class="hover:underline flex-shrink-0">Juguetes</a>
+                <a href="PaginaTecnologia.html" class="hover:underline flex-shrink-0">Tecnología</a>
+                <a href="PaginaOutlet.html" class="hover:underline flex-shrink-0 hidden sm:block">Outlet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-[260px] bg-white dark:bg-gray-900 text-black dark:text-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <div class="p-5 font-bold text-lg border-b border-gray-200 dark:border-gray-700">Menú</div>
+        <div class="flex flex-col p-5 gap-4">
+            <a href="PaginaTodaslascategorias.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Todas las Categorías</a>
+            <a href="PaginaHogar.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Hogar</a>
+            <a href="PaginaSaludyBelleza.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Salud y Belleza</a>
+            <a href="PaginaModa.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Moda</a>
+            <a href="PaginaJuguetes.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Juguetes</a>
+            <a href="PaginaTecnologia.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Tecnología</a>
+            <a href="PaginaOutlet.html" class="hover:text-[#e46868] dark:hover:text-[#ff8a8a]">Outlet</a>
+        </div>
+        <div class="absolute bottom-5 left-0 w-full px-5">
+            <button id="darkModeToggle" class="flex items-center gap-2 w-full py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" />
+                    <path stroke="currentColor" stroke-width="2" d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                </svg>
+                Modo Oscuro
+            </button>
+        </div>
+    </div>
+
+</header>
+
+   <!-- DESPUÉS -->
+<section class="max-w-7xl mx-auto p-6">
+    <div class="bg-[#ffafaf] dark:bg-[#8b3030] rounded-[30px] overflow-hidden h-[350px] shadow-lg relative">
+        <div id="bannerSlider" class="w-full h-full relative">
+            <img id="bannerImg" src="pictures/banner.jpg" alt="Banner Miniso"
+                 class="w-full h-full object-cover no-hover absolute inset-0 transition-opacity duration-700 opacity-100">
+        </div>
+        <!-- Indicadores -->
+        <div id="bannerDots" class="absolute bottom-4 left-0 w-full flex justify-center gap-2 z-10"></div>
+    </div>
+</section>
+
+  <section class="max-w-7xl mx-auto py-10 px-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+
+        <div class="bg-[#e4e8ed] dark:bg-gray-800 rounded-[30px] border-4 border-white dark:border-gray-700 p-4 text-center">
+            <div class="aspect-square rounded-2xl mb-4 overflow-hidden">
+                <img src="pictures/recoger.png" alt="Recoger en tienda" class="w-full h-full object-cover">
+            </div>
+            <button class="bg-[#e46868] dark:bg-[#c04040] text-white px-3 py-2 rounded-xl font-semibold w-full hover:bg-[#d65757] dark:hover:bg-[#a03030] transition text-sm">Recoger en Tienda</button>
+        </div>
+
+        <div class="bg-[#e4e8ed] dark:bg-gray-800 rounded-[30px] border-4 border-white dark:border-gray-700 p-4 text-center">
+            <div class="aspect-square rounded-2xl mb-4 overflow-hidden">
+                <img src="pictures/recorrido.png" alt="Recorrido Virtual" class="w-full h-full object-cover">
+            </div>
+            <button class="bg-[#e46868] dark:bg-[#c04040] text-white px-3 py-2 rounded-xl font-semibold w-full hover:bg-[#d65757] dark:hover:bg-[#a03030] transition text-sm">Recorrido Virtual</button>
+        </div>
+
+        <div class="bg-[#e4e8ed] dark:bg-gray-800 rounded-[30px] border-4 border-white dark:border-gray-700 p-4 text-center">
+            <div class="aspect-square rounded-2xl mb-4 overflow-hidden">
+                <img src="pictures/OsitosCariñositos.jpg" alt="Ositos Cariñositos" class="w-full h-full object-cover">
+            </div>
+            <button class="bg-[#e46868] dark:bg-[#c04040] text-white px-3 py-2 rounded-xl font-semibold w-full hover:bg-[#d65757] dark:hover:bg-[#a03030] transition text-sm">Ositos Cariñositos</button>
+        </div>
+
+        <div class="bg-[#e4e8ed] dark:bg-gray-800 rounded-[30px] border-4 border-white dark:border-gray-700 p-4 text-center">
+            <div class="aspect-square rounded-2xl mb-4 overflow-hidden">
+                <img src="pictures/Snoopy.jpg" alt="Snoopy" class="w-full h-full object-cover">
+            </div>
+            <button class="bg-[#e46868] dark:bg-[#c04040] text-white px-3 py-2 rounded-xl font-semibold w-full hover:bg-[#d65757] dark:hover:bg-[#a03030] transition text-sm">Snoopy</button>
+        </div>
+
+        <div class="bg-[#e4e8ed] dark:bg-gray-800 rounded-[30px] border-4 border-white dark:border-gray-700 p-4 text-center">
+            <div class="aspect-square rounded-2xl mb-4 overflow-hidden">
+                <img src="pictures/Zootopia1.jpg" alt="Zootopia" class="w-full h-full object-cover">
+            </div>
+            <button class="bg-[#e46868] dark:bg-[#c04040] text-white px-3 py-2 rounded-xl font-semibold w-full hover:bg-[#d65757] dark:hover:bg-[#a03030] transition text-sm">Zootopia</button>
+        </div>
+
+        <!-- Tarjeta nueva -->
+        <div class="bg-[#e4e8ed] dark:bg-gray-800 rounded-[30px] border-4 border-white dark:border-gray-700 p-4 text-center">
+            <div class="aspect-square rounded-2xl mb-4 overflow-hidden">
+                <img src="pictures/PelucheWinnieThePooh2.webp" alt="Nueva categoría" class="w-full h-full object-cover">
+            </div>
+            <button class="bg-[#e46868] dark:bg-[#c04040] text-white px-3 py-2 rounded-xl font-semibold w-full hover:bg-[#d65757] dark:hover:bg-[#a03030] transition text-sm">Winnie The Pooh</button>
+        </div>
+
+    </div>
+</section>
+  <section class="bg-[#eeeeee] dark:bg-gray-800 py-16">
+    <div class="max-w-7xl mx-auto">
+
+        <h2 class="text-4xl font-bold text-center text-[#e46868] dark:text-[#ff8a8a] mb-12">
+            Compra por Categorías en Miniso
+        </h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Juguetes.png"
+                         alt="Juguetes"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Juguetes
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Hogar.jpg"
+                         alt="Hogar"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Hogar
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Cocina.png"
+                         alt="Cocina"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Cocina
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Salud y Belleza.png"
+                         alt="Salud y Belleza"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Salud y Belleza
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Moda.png"
+                         alt="Moda"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Moda
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Tecnología.png"
+                         alt="Tecnología"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Tecnología
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Deportes.png"
+                         alt="Deportes"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Deportes
+                </p>
+            </div>
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Papelería.png"
+                         alt="Papelería"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Papelería
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Snack.png"
+                         alt="Snack"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Snack
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Viajes.png"
+                         alt="Viajes"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Viajes
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Maquillaje.png"
+                         alt="Maquillaje"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Maquillaje
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-700 rounded-3xl p-5 text-center shadow">
+                <div class="h-40 rounded-2xl mb-4 overflow-hidden">
+                    <img src="pictures\Mascotas.png"
+                         alt="Mascotas"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <p class="font-semibold text-[#e46868] dark:text-[#ff8a8a] hover:underline cursor-pointer">
+                    Mascotas
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <section class="max-w-7xl mx-auto py-16 px-4">
+
+        <h2 class="text-4xl font-bold text-center text-[#f8998d] dark:text-[#ffaaaa] mb-12">
+            Inspirado en tus Favoritos
+        </h2>
+
+        <div class="carrusel-container relative">
+
+            <button id="carruselBtnLeft" class="carrusel-btn carrusel-btn-left">
+                ‹
+            </button>
+
+            <div id="carruselTrack" class="carrusel-track">
+
+                <!-- Producto 1 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <a href="PaginaArticulo.html" class="block cursor-pointer">
+                        <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                            <img src="pictures\Peluche Winnie The Pooh Felpa Amarillo.webp"
+                                 class="w-full h-full object-cover"
+                                 alt="Peluche Winnie The Pooh Felpa Amarillo">
+                        </div>
+                    </a>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Peluche Winnie The Pooh Felpa Amarillo
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★★</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $299.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Peluche Winnie The Pooh Felpa Amarillo"
+                            data-price="299.90"
+                            data-img="pictures\Peluche Winnie The Pooh Felpa Amarillo.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Peluche Disney Stitch Felpa 30 cm.webp"
+                             class="w-full h-full object-cover"
+                             alt="Peluche Disney Stitch Felpa 30 cm">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Peluche Disney Stitch Felpa 30 cm
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $249.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Peluche Disney Stitch Felpa 30 cm"
+                            data-price="249.90"
+                            data-img="pictures\Peluche Disney Stitch Felpa 30 cm.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Blind Box Sanrio Hello Kitty Serie 1.webp"
+                             class="w-full h-full object-cover"
+                             alt="Blind Box Sanrio Hello Kitty Serie 1">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Blind Box Sanrio Hello Kitty Serie 1
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $189.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Blind Box Sanrio Hello Kitty Serie 1"
+                            data-price="189.90"
+                            data-img="pictures\Blind Box Sanrio Hello Kitty Serie 1.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Cojín Decorativo Snoopy Béisbol Felpa 50x43cm.webp"
+                             class="w-full h-full object-cover"
+                             alt="Cojín Decorativo Snoopy Béisbol Felpa 50x43cm">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Cojín Decorativo Snoopy Béisbol Felpa 50x43cm
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★☆☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $339.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Cojín Decorativo Snoopy Béisbol Felpa 50x43cm"
+                            data-price="339.90"
+                            data-img="pictures\Cojín Decorativo Snoopy Béisbol Felpa 50x43cm.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Set Velas Aromáticas Fruity Berry 12 piezas.webp"
+                             class="w-full h-full object-cover"
+                             alt="Set Velas Aromáticas Fruity Berry 12 piezas">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Set Velas Aromáticas Fruity Berry 12 piezas
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★★</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $59.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Set Velas Aromáticas Fruity Berry 12 piezas"
+                            data-price="59.90"
+                            data-img="pictures\Set Velas Aromáticas Fruity Berry 12 piezas.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Peluche Disney Judy Hopps Zootopia Felpa 43 cm.webp"
+                             class="w-full h-full object-cover"
+                             alt="Peluche Disney Judy Hopps Zootopia Felpa 43 cm">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Peluche Disney Judy Hopps Zootopia Felpa 43 cm
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $299.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Peluche Disney Judy Hopps Zootopia Felpa 43 cm"
+                            data-price="299.90"
+                            data-img="pictures\Peluche Disney Judy Hopps Zootopia Felpa 43 cm.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 7 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Lámpara de Proyección Sunset Negra.webp"
+                             class="w-full h-full object-cover"
+                             alt="Lámpara de Proyección Sunset Negra">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Lámpara de Proyección Sunset Negra
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★☆☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $149.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Lámpara de Proyección Sunset Negra"
+                            data-price="149.90"
+                            data-img="pictures\Lámpara de Proyección Sunset Negra.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 8 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Perfume Butterfly Dreams 50ml.webp"
+                             class="w-full h-full object-cover"
+                             alt="Perfume Butterfly Dreams 50ml">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Perfume Butterfly Dreams 50ml
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★★</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $279.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Perfume Butterfly Dreams 50ml"
+                            data-price="279.90"
+                            data-img="pictures\Perfume Butterfly Dreams 50ml.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 9 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                   <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Set de Brochas Sweet N Bold 8 piezas.webp"
+                             class="w-full h-full object-cover"
+                             alt="Set de Brochas Sweet N Bold 8 piezas">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Set de Brochas Sweet N Bold 8 piezas
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $149.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Set de Brochas Sweet N Bold 8 piezas"
+                            data-price="149.90"
+                            data-img="pictures\Set de Brochas Sweet N Bold 8 piezas.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 10 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                   <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                        <img src="pictures\Kit bricolaje My Little Pony Twilight Sparkle morado.webp"
+                             class="w-full h-full object-cover"
+                             alt="Kit bricolaje My Little Pony Twilight Sparkle morado">
+                    </div>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Kit bricolaje My Little Pony Twilight Sparkle morado
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★☆☆</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $369.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Kit bricolaje My Little Pony Twilight Sparkle morado"
+                            data-price="369.90"
+                            data-img="pictures\Kit bricolaje My Little Pony Twilight Sparkle morado.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 11 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <a href="PaginaArticulo.html" class="block cursor-pointer">
+                        <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                            <img src="pictures\GelAntibacterial.jpg"
+                                 class="w-full h-full object-cover"
+                                 alt="Gel antibacterial para manos portátil">
+                        </div>
+                    </a>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Gel antibacterial para manos portátil 50ml
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★★</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $299.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Gel antibacterial para manos portátil"
+                            data-price="299.90"
+                            data-img="pictures\GelAntibacterial.jpg">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+                <!-- Producto 12 -->
+                <div class="product-card bg-[#f4f4f4] dark:bg-gray-800 rounded-2xl border-2 border-[#f8998d] dark:border-[#ffaaaa] p-5">
+                    <a href="PaginaArticulo.html" class="block cursor-pointer">
+                        <div class="h-52 rounded-2xl mb-5 overflow-hidden hover:scale-105 transition-transform duration-300">
+                            <img src="pictures\MousepadStarWarsNegro.webp"
+                                 class="w-full h-full object-cover"
+                                 alt="Mousepad Star Wars poliéster negro">
+                        </div>
+                    </a>
+                    <h3 class="font-bold text-[#e46868] dark:text-[#ff8a8a] text-lg mb-4">
+                        Mousepad Star Wars poliéster negro
+                    </h3>
+                    <div class="text-yellow-400 text-xl mb-4">★★★★★</div>
+                    <p class="text-2xl font-extrabold text-[#e46868] dark:text-[#ff8a8a] mb-5">
+                        $179.90
+                    </p>
+                    <button class="add-to-cart-btn w-full bg-[#e46868] dark:bg-[#c04040] text-white py-3 rounded-xl font-semibold hover:bg-[#d65757] transition"
+                            data-name="Mousepad Star Wars poliéster negro"
+                            data-price="179.90"
+                            data-img="pictures\MousepadStarWarsNegro.webp">
+                        A MI BOLSA
+                    </button>
+                </div>
+
+            </div>
+
+            <button id="carruselBtnRight" class="carrusel-btn carrusel-btn-right">
+                ›
+            </button>
+
+        </div>
+
+        <div id="carruselIndicators" class="carrusel-indicators"></div>
+
+    </section>
+
+    <section class="max-w-6xl mx-auto py-16 px-6">
+        <h2 class="text-3xl font-semibold mb-6 text-center text-gray-800 dark:text-gray-200">Miniso México: marca, productos y experiencia de compra</h2>
+        <p class="text-lg leading-8 text-gray-700 dark:text-gray-300 text-justify">
+            Miniso es una marca global de estilo de vida con presencia consolidada en México,
+            reconocida por ofrecer productos originales, funcionales y con diseño accesible
+            para el día a día. A través de su tienda en línea oficial y una amplia red de
+            tiendas físicas, Miniso brinda una experiencia de compra omnicanal confiable
+            para millones de clientes en el país.
+
+            En miniso.com.mx encontrarás un catálogo diverso que incluye categorías como
+            juguetes, blind box, peluches, moda, tecnología, salud y belleza, maquillaje
+            y colecciones especiales como BlindLab.
+
+            Miniso cuenta con licencias oficiales de marcas reconocidas como Disney,
+            Sanrio, Stitch, Mickey Mouse, BT21, One Piece, Ositos Cariñositos,
+            Snoopy, Mofusand y Crayon Shinchan, además de productos exclusivos
+            y lanzamientos seleccionados.
+        </p>
+    </section>
+
+ <section class="max-w-5xl mx-auto py-10 px-6">
+    <h2 class="text-4xl font-bold text-center text-[#e46868] dark:text-[#ff8a8a] mb-10">Preguntas Frecuentes</h2>
+    <div class="space-y-5">
+
+        <details class="border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-xl p-5 bg-white dark:bg-gray-800">
+            <summary class="font-semibold text-xl cursor-pointer text-gray-800 dark:text-gray-200">
+                ¿Qué es Miniso y qué tipo de productos vende?
+            </summary>
+            <div class="faq-content">
+                <p class="mt-4 text-gray-700 dark:text-gray-300">
+                    Miniso es una marca global de estilo de vida que ofrece productos funcionales, originales y accesibles para el día a día.
+                </p>
+            </div>
+        </details>
+
+        <details class="border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-xl p-5 bg-white dark:bg-gray-800">
+            <summary class="font-semibold text-xl cursor-pointer text-gray-800 dark:text-gray-200">
+                ¿Qué colecciones originales y de licencia puedo encontrar en Miniso?
+            </summary>
+            <div class="faq-content">
+                <p class="mt-4 text-gray-700 dark:text-gray-300">
+                    Podrás encontrar colecciones de Disney, Sanrio, BT21, One Piece, Snoopy, Stitch, Mickey Mouse, Ositos Cariñositos y muchas más.
+                </p>
+            </div>
+        </details>
+
+        <details class="border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-xl p-5 bg-white dark:bg-gray-800">
+            <summary class="font-semibold text-xl cursor-pointer text-gray-800 dark:text-gray-200">
+                ¿Qué es una "Blind Box" y por qué son tan populares en Miniso?
+            </summary>
+            <div class="faq-content">
+                <p class="mt-4 text-gray-700 dark:text-gray-300">
+                    Las Blind Boxes son cajas sorpresa coleccionables muy populares por su diseño y emoción al descubrir personajes aleatorios.
+                </p>
+            </div>
+        </details>
+
+        <details class="border-4 border-[#e46868] dark:border-[#ff8a8a] rounded-xl p-5 bg-white dark:bg-gray-800">
+            <summary class="font-semibold text-xl cursor-pointer text-gray-800 dark:text-gray-200">
+                ¿Dónde puedo comprar productos Miniso en México?
+            </summary>
+            <div class="faq-content">
+                <p class="mt-4 text-gray-700 dark:text-gray-300">
+                    Puedes comprar productos Miniso en tiendas físicas y en su tienda en línea oficial.
+                </p>
+            </div>
+        </details>
+
+    </div>
+</section>
+
+    <section class="max-w-7xl mx-auto py-10 px-6">
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+            <div class="w-[274px] h-[480px] bg-[#dadada] dark:bg-gray-700 rounded-[10px] p-3 flex items-center justify-center shadow-md">
+              <img src="pictures\Promoción Miniso.png"
+     alt="Promoción Miniso"
+     class="w-full h-full object-cover  no-hover rounded-[8px]" />
+            </div>
+            <div class="flex-1 bg-white dark:bg-gray-800 rounded-[10px] shadow-md p-6 flex flex-col items-center justify-center">
+                <div class="flex justify-center items-center mb-5">
+                    <span class="font-semibold text-[18px] text-black dark:text-white">METODOS DE PAGO</span>
+                </div>
+                 <img src="pictures\Metodos de pago.png"
+     alt="Metodos de pago"
+     class="w-full h-full object-cover  no-hover rounded-[8px]" />
+           
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#f8998d] dark:bg-gray-800 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto text-center px-6 space-y-6">
+            <p class="text-lg">Miniso México. Todos los derechos reservados © 2026</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="hover:underline">Términos y Condiciones</a>
+                <a href="#" class="hover:underline">Aviso de Privacidad</a>
+            </div>
+            <p class="text-sm max-w-5xl mx-auto leading-7">Miniso.com.mx utiliza cookies a través de las que se obtienen datos personales de los clientes.</p>
+        </div>
+    </footer>
+
+    <script>
+        function getCart() {
+            return JSON.parse(localStorage.getItem("cart")) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+            const counters = document.querySelectorAll('.cart-counter');
+            counters.forEach(counter => {
+                if (counter) counter.textContent = totalItems;
+            });
+        }
+
+        function addToCart(buttonElement, name, price, img) {
+
+		img = img.replace(/\\/g, '/');
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            const originalBgColor = isDarkMode ? '#c04040' : '#e46868';
+
+            buttonElement.classList.add('btn-click-animation');
+
+            const originalText = buttonElement.textContent;
+            buttonElement.textContent = '✓ AGREGADO';
+
+            setTimeout(() => {
+                buttonElement.classList.remove('btn-click-animation');
+                buttonElement.textContent = originalText;
+                buttonElement.style.backgroundColor = originalBgColor;
+            }, 400);
+
+            const cart = getCart();
+            const existing = cart.find(item => item.name === name);
+
+            if (existing) {
+                existing.qty = (existing.qty || 1) + 1;
+            } else {
+                cart.push({ name: name, price: price, img: img, qty: 1 });
+            }
+
+            saveCart(cart);
+            updateCartCounter();
+        }
+
+       function initCarrusel() {
+    const track = document.getElementById('carruselTrack');
+    const btnLeft = document.getElementById('carruselBtnLeft');
+    const btnRight = document.getElementById('carruselBtnRight');
+    const indicatorsContainer = document.getElementById('carruselIndicators');
+
+    if (!track) return;
+
+    const products = document.querySelectorAll('.product-card');
+    const totalProducts = products.length;
+    let currentIndex = 0;
+
+    function getVisibleItems() {
+        if (window.innerWidth >= 1280) return 4;
+        if (window.innerWidth >= 1024) return 3;
+        if (window.innerWidth >= 768) return 2;
+        return 1;
+    }
+
+    function getMaxIndex() {
+        return Math.max(0, totalProducts - getVisibleItems());
+    }
+
+    function createIndicators() {
+        const totalPages = Math.ceil(totalProducts / getVisibleItems());
+        indicatorsContainer.innerHTML = '';
+        for (let i = 0; i < totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('carrusel-dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentIndex = i * getVisibleItems();
+                if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
+                updateCarrusel();
+            });
+            indicatorsContainer.appendChild(dot);
+        }
+    }
+
+    function updateCarrusel() {
+        const cardWidth = products[0]?.offsetWidth || 280;
+        const gap = 32;
+        const scrollAmount = currentIndex * (cardWidth + gap);
+        track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+        updateIndicators();
+    }
+
+    function updateIndicators() {
+        const visibleItems = getVisibleItems();
+        const currentPage = Math.floor(currentIndex / visibleItems);
+        const dots = document.querySelectorAll('.carrusel-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentPage);
+        });
+    }
+
+   function nextSlide() {
+    const visibleItems = getVisibleItems();
+    const maxIndex = getMaxIndex();
+    if (currentIndex < maxIndex) {
+        currentIndex = Math.min(currentIndex + visibleItems, maxIndex);
+    } else {
+        currentIndex = 0; // vuelve al inicio
+    }
+    updateCarrusel();
+}
+
+function prevSlide() {
+    const visibleItems = getVisibleItems();
+    if (currentIndex > 0) {
+        currentIndex = Math.max(currentIndex - visibleItems, 0);
+    } else {
+        currentIndex = getMaxIndex(); // salta al final
+    }
+    updateCarrusel();
+}
+    
+
+    if (btnLeft) btnLeft.addEventListener('click', prevSlide);
+    if (btnRight) btnRight.addEventListener('click', nextSlide);
+
+    window.addEventListener('resize', () => {
+        const maxIndex = getMaxIndex();
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        updateCarrusel();
+        createIndicators();
+    });
+
+    track.addEventListener('scroll', () => {
+        const cardWidth = products[0]?.offsetWidth || 280;
+        const gap = 32;
+        const newIndex = Math.round(track.scrollLeft / (cardWidth + gap));
+        if (newIndex !== currentIndex && newIndex <= getMaxIndex()) {
+            currentIndex = newIndex;
+            updateIndicators();
+        }
+    });
+
+    createIndicators();
+}
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+// Banner automático
+const bannerImages = [
+    { desktop: "pictures/banner.jpg",       mobile: "pictures/BannerCelularMakeAFriend.JPG" },
+    { desktop: "pictures/minirock.JPG",      mobile: "pictures/Banner hot sale celular 1.JPG" },
+    { desktop: "pictures/pulicidad 3.JPG",      mobile: "pictures/Banner hot sale celular 2.JPG" },
+];
+
+let bannerIndex = 0;
+const bannerImg = document.getElementById('bannerImg');
+const bannerDots = document.getElementById('bannerDots');
+
+function isMobile() { return window.innerWidth <= 768; }
+
+function getBannerSrc(item) {
+    return isMobile() ? item.mobile : item.desktop;
+}
+
+// Crear puntos indicadores
+bannerImages.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'w-2.5 h-2.5 rounded-full cursor-pointer transition-all duration-300 ' +
+        (i === 0 ? 'bg-white scale-125' : 'bg-white/50');
+    dot.addEventListener('click', () => goToBanner(i));
+    bannerDots.appendChild(dot);
+});
+
+function updateBannerDots() {
+    document.querySelectorAll('#bannerDots div').forEach((dot, i) => {
+        dot.className = 'w-2.5 h-2.5 rounded-full cursor-pointer transition-all duration-300 ' +
+            (i === bannerIndex ? 'bg-white scale-125' : 'bg-white/50');
+    });
+}
+
+function goToBanner(index) {
+    bannerImg.style.opacity = '0';
+    setTimeout(() => {
+        bannerIndex = index;
+        bannerImg.src = getBannerSrc(bannerImages[bannerIndex]);
+        bannerImg.style.opacity = '1';
+        updateBannerDots();
+    }, 350);
+}
+
+
+function initFaqTransitions() {
+    const details = document.querySelectorAll('details');
+    details.forEach(detail => {
+        const content = detail.querySelector('.faq-content');
+        if (!content) return;
+
+        detail.addEventListener('toggle', function () {
+            if (this.open) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            } else {
+                content.style.maxHeight = '0';
+            }
+        });
+
+        if (!detail.open) {
+            content.style.maxHeight = '0';
+        } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    });
+}
+
+
+function nextBanner() {
+    goToBanner((bannerIndex + 1) % bannerImages.length);
+}
+
+setInterval(nextBanner, 4000);
+            updateCartCounter();
+const allImages = document.querySelectorAll("img");
+
+allImages.forEach(img => {
+    if (img.alt) {
+        img.title = img.alt;
+    }
+});
+
+
+
+
+
+
+
+
+            const buttons = document.querySelectorAll('.add-to-cart-btn');
+            buttons.forEach(btn => {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                newBtn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const name = this.getAttribute('data-name');
+                    const price = parseFloat(this.getAttribute('data-price'));
+                    const img = this.getAttribute('data-img');
+                    addToCart(this, name, price, img);
+                });
+            });
+
+            initCarrusel();
+initFaqTransitions();
+
+            const menuBtn = document.getElementById("menuBtn");
+            const sidebar = document.getElementById("sidebar");
+            const darkModeToggle = document.getElementById("darkModeToggle");
+
+            if (menuBtn && sidebar) {
+                menuBtn.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    sidebar.classList.remove("-translate-x-full");
+                });
+            }
+
+            document.addEventListener("click", (event) => {
+                if (sidebar && !sidebar.classList.contains("-translate-x-full")) {
+                    if (!sidebar.contains(event.target) && event.target !== menuBtn && !menuBtn.contains(event.target)) {
+                        sidebar.classList.add("-translate-x-full");
+                    }
+                }
+            });
+
+            const toggleDarkMode = () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'false');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('darkMode', 'true');
+                }
+            };
+
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener("click", toggleDarkMode);
+            }
+        });
+    </script>
+
+<script>
+(function() {
+  const steps = [
+    {
+      title: "Barra de búsqueda",
+      desc:  "Escribe el nombre de cualquier producto para encontrarlo rápidamente.",
+      selector: 'input[type="text"]',
+      position: "bottom"
+    },
+    {
+      title: "Categorías",
+      desc:  "Navega por todas las categorías o usa el menú ☰ para verlas todas.",
+      selector: 'nav',
+      position: "bottom"
+    },
+    {
+      title: "Productos destacados",
+      desc:  "Desliza el carrusel para ver más productos y haz clic en 'A mi bolsa'.",
+      selector: '#carruselTrack, h2',
+      position: "top"
+    },
+    {
+      title: "Tu carrito",
+      desc:  "Aquí aparece el contador de artículos. Haz clic para revisar tu bolsa.",
+      selector: 'a[href="PaginaCarrito.html"]',
+      position: "bottom"
+    }
+  ];
+
+  let current = 0;
+  let el = null;
+
+  const hl = document.createElement('div');
+  hl.id = 'tourHL';
+  hl.style.cssText = 'position:fixed;z-index:9999;border-radius:10px;box-shadow:0 0 0 9999px rgba(0,0,0,.55);transition:all .35s;pointer-events:none;opacity:0;';
+  document.body.appendChild(hl);
+
+  const tip = document.createElement('div');
+  tip.id = 'tourTip';
+  tip.style.cssText = 'position:fixed;z-index:10000;background:#fff;border-radius:14px;padding:18px 20px 16px;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.18);font-family:sans-serif;transition:all .35s;';
+  document.body.appendChild(tip);
+
+  function findEl(selector) {
+    const selectors = selector.split(',').map(x => x.trim());
+    for (const sel of selectors) {
+      const found = document.querySelector(sel);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  function positionHighlight(targetEl, s) {
+    const r   = targetEl.getBoundingClientRect();
+    const pad = 8;
+    const vw  = window.innerWidth;
+    const vh  = window.innerHeight;
+
+    hl.style.left   = (r.left - pad) + 'px';
+    hl.style.top    = (r.top  - pad) + 'px';
+    hl.style.width  = (r.width  + pad * 2) + 'px';
+    hl.style.height = (r.height + pad * 2) + 'px';
+    hl.style.opacity = '1';
+
+    tip.innerHTML = `
+      <div style="display:inline-block;background:#e46868;color:#fff;font-size:11px;font-weight:600;border-radius:20px;padding:2px 10px;margin-bottom:8px;">
+        Paso ${current + 1} de ${steps.length}
+      </div>
+      <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px;">${s.title}</div>
+      <div style="font-size:13px;color:#555;line-height:1.5;margin-bottom:14px;">${s.desc}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;gap:5px;">
+          ${steps.map((_, i) => '<div style="width:7px;height:7px;border-radius:50%;background:' + (i === current ? '#e46868' : '#ddd') + ';"></div>').join('')}
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button onclick="window.tourSkip()" style="font-size:12px;color:#aaa;background:none;border:none;cursor:pointer;padding:0;">Saltar</button>
+          <button onclick="window.tourNext()" style="background:#e46868;color:#fff;border:none;padding:7px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">
+            ${current < steps.length - 1 ? 'Siguiente →' : 'Terminar ✓'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    let tx = r.left;
+    let ty = s.position === 'top' ? r.top - 200 : r.bottom + 16;
+
+    if (tx + 290 > vw) tx = vw - 295;
+    if (tx < 8)        tx = 8;
+
+    if (r.height > vh * 0.6) {
+      ty = vh - 210;
+    } else {
+      if (ty < 8)          ty = r.bottom + 16;
+      if (ty + 195 > vh)   ty = Math.max(8, r.top - 210);
+    }
+
+    tip.style.left = tx + 'px';
+    tip.style.top  = ty + 'px';
+  }
+
+  function render() {
+    const s = steps[current];
+    el = findEl(s.selector);
+    if (!el) return;
+
+    hl.style.opacity = '0';
+
+    const rect0   = el.getBoundingClientRect();
+    const targetY = window.scrollY + rect0.top - (window.innerHeight / 2) + (rect0.height / 2);
+    window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+
+    let lastY = -1, stableCount = 0;
+    function waitForScrollStop() {
+      const currentY = window.scrollY;
+      if (currentY === lastY) { stableCount++; }
+      else { stableCount = 0; lastY = currentY; }
+      if (stableCount >= 4) { positionHighlight(el, s); }
+      else { requestAnimationFrame(waitForScrollStop); }
+    }
+    requestAnimationFrame(waitForScrollStop);
+  }
+
+  window.tourNext = function() {
+    if (current < steps.length - 1) { current++; render(); }
+    else window.tourSkip();
+  };
+
+  window.tourSkip = function() {
+    hl.remove();
+    tip.remove();
+  };
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.key === 'Delete' || e.key === 'Backspace') {
+        window.tourSkip();
+    }
+});
+  setTimeout(render, 600);
+})();
+</script>
+
+</body>
+</html>

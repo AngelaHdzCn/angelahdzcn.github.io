@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miniso México - Gestión de Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .btn-click-animation {
+            animation: scalePop 0.3s ease-in-out !important;
+        }
+
+        @keyframes scalePop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#ffafaf] dark:bg-[#8b3030] min-h-screen flex items-center justify-center p-4">
+
+    <!-- TARJETA DE LOGIN/LOGOUT -->
+    <div class="w-full max-w-[974px]">
+        <div class="flex flex-col justify-center items-center gap-[23px] bg-white dark:bg-gray-800 px-6 md:px-[146px] pt-10 md:pt-20 pb-10 md:pb-[86px] rounded-[20px] border-[3px] border-solid border-[#e46868] dark:border-[#ff8a8a] shadow-2xl">
+
+            <!-- Logo -->
+            <div class="flex items-end gap-0.5">
+                <div class="w-[89px] h-[89px] ] rounded-xl flex items-center justify-center">
+<img src="pictures/miniso.png" alt="Logo Miniso" class="w-full h-full object-cover">
+                   
+                </div>
+                <div class="text-4xl font-bold text-[#e46868] dark:text-[#ff8a8a] ml-2">
+                   <div class="flex justify-center items-center">
+  <img src="pictures/miniso love.png" alt="logo_MinisoLove_web_818x414px_negro.png" 
+       class="w-40 h-auto md:w-56 object-contain">
+</div>
+
+                </div>
+            </div>
+
+            <!-- Título dinámico (Login/Logout) -->
+            <div id="formTitle" class="text-2xl font-bold text-[#e46868] dark:text-[#ff8a8a] text-center"></div>
+
+            <!-- Campo Correo -->
+            <div class="w-full max-w-[614px] flex flex-col gap-2">
+                <span class="font-semibold text-[24px] text-[#e46868] dark:text-[#ff8a8a]">Correo electrónico</span>
+                <input type="email" id="loginEmail" placeholder="usuario@miniso.com"
+                       class="h-[59px] bg-neutral-100 dark:bg-gray-700 rounded-[10px] border-2 border-[#ffafaf] dark:border-[#8b3030] px-4 text-[20px] outline-none focus:border-[#e46868] dark:focus:border-[#ff8a8a] text-gray-800 dark:text-white" />
+            </div>
+
+            <!-- Campo Contraseña -->
+            <div class="w-full max-w-[614px] flex flex-col gap-2">
+                <span class="font-semibold text-[24px] text-[#e46868] dark:text-[#ff8a8a]">Contraseña</span>
+                <input type="password" id="loginPassword" placeholder="miniso123"
+                       class="h-[59px] bg-neutral-100 dark:bg-gray-700 rounded-[10px] border-2 border-[#ffafaf] dark:border-[#8b3030] px-4 text-[20px] outline-none focus:border-[#e46868] dark:focus:border-[#ff8a8a] text-gray-800 dark:text-white" />
+            </div>
+
+            <!-- Información de sesión actual (si está logueado) -->
+            <div id="sessionInfo" class="w-full max-w-[614px] text-center text-sm text-gray-500 dark:text-gray-400 hidden"></div>
+
+            <!-- Botón dinámico (Iniciar sesión / Cerrar sesión) -->
+            <button id="actionBtn" class="w-full max-w-[614px] flex justify-center items-center gap-2.5 p-3 rounded-[10px] transition cursor-pointer">
+                <span id="actionBtnText" class="font-semibold text-[20px] text-center text-white"></span>
+            </button>
+
+            <!-- Enlace dinámico (Olvidé contraseña / Volver al inicio) -->
+            <div class="w-full max-w-[440px] flex flex-col items-center">
+                <a id="bottomLink" href="#" class="font-light text-[20px] md:text-[24px] text-center text-[#e46868] dark:text-[#ff8a8a] hover:underline"></a>
+            </div>
+
+            <!-- Mensaje de error/éxito -->
+            <div id="loginMessage" class="w-full max-w-[614px] text-center font-semibold text-lg hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CREDENCIALES ====================
+        const VALID_EMAIL = "usuario@miniso.com";
+        const VALID_PASSWORD = "miniso123";
+
+        // Elementos del DOM
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        const messageDiv = document.getElementById('loginMessage');
+        const actionBtn = document.getElementById('actionBtn');
+        const actionBtnText = document.getElementById('actionBtnText');
+        const formTitle = document.getElementById('formTitle');
+        const bottomLink = document.getElementById('bottomLink');
+        const sessionInfo = document.getElementById('sessionInfo');
+
+        // Función para actualizar la UI según el estado de sesión
+        function updateUI() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+            const userEmail = localStorage.getItem("userEmail");
+
+            if (isLoggedIn && userEmail) {
+                // Modo CERRAR SESIÓN
+                formTitle.textContent = "🔐 Cerrar Sesión";
+                actionBtnText.textContent = "Cerrar sesión";
+                actionBtn.classList.remove('bg-[#f8998d]', 'dark:bg-[#c04040]', 'hover:bg-[#e46868]');
+                actionBtn.classList.add('bg-red-500', 'hover:bg-red-600', 'dark:bg-red-600', 'dark:hover:bg-red-700');
+                bottomLink.textContent = "← Volver al inicio";
+                bottomLink.href = "PaginaInicial.html";
+                sessionInfo.classList.remove('hidden');
+
+                // Prellenar campos con el email del usuario logueado
+                emailInput.value = userEmail;
+                emailInput.disabled = true;
+                passwordInput.value = "";
+                passwordInput.placeholder = "Ingresa tu contraseña para cerrar sesión";
+            } else {
+                // Modo INICIAR SESIÓN
+                formTitle.textContent = "🔑 Iniciar Sesión";
+                actionBtnText.textContent = "Iniciar sesión";
+                actionBtn.classList.remove('bg-red-500', 'hover:bg-red-600', 'dark:bg-red-600', 'dark:hover:bg-red-700');
+                actionBtn.classList.add('bg-[#f8998d]', 'dark:bg-[#c04040]', 'hover:bg-[#e46868]', 'dark:hover:bg-[#a03030]');
+                bottomLink.textContent = "¿Olvidaste tu contraseña?";
+                bottomLink.href = "#";
+                sessionInfo.classList.add('hidden');
+
+                // Habilitar y limpiar campos
+                emailInput.disabled = false;
+                emailInput.value = "";
+                passwordInput.value = "";
+                passwordInput.placeholder = "miniso123";
+            }
+        }
+
+        // Función para limpiar mensaje después de un tiempo
+        function clearMessageAfterDelay() {
+            setTimeout(() => {
+                if (messageDiv) {
+                    messageDiv.classList.add('hidden');
+                    messageDiv.textContent = "";
+                }
+            }, 3000);
+        }
+
+        // Función para mostrar mensaje
+        function showMessage(text, isError = true) {
+            messageDiv.textContent = text;
+            messageDiv.classList.remove('hidden');
+            messageDiv.style.color = isError ? "#ef4444" : "#10b981";
+            clearMessageAfterDelay();
+        }
+
+        // Función para animar botón
+        function animateButton(button) {
+            button.classList.add('btn-click-animation');
+            setTimeout(() => {
+                button.classList.remove('btn-click-animation');
+            }, 300);
+        }
+
+        // Función para INICIAR SESIÓN
+        function handleLogin() {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            animateButton(actionBtn);
+
+            // Validar campos vacíos
+            if (email === "" || password === "") {
+                showMessage("❌ Completa todos los campos", true);
+                return;
+            }
+
+            // Validar credenciales
+            if (email === VALID_EMAIL && password === VALID_PASSWORD) {
+                // Guardar sesión
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("userEmail", email);
+
+                showMessage("✅ ¡Inicio de sesión exitoso! Redirigiendo...", false);
+
+                // Redirigir a la página principal
+                setTimeout(() => {
+                    window.location.href = "PaginaInicial.html";
+                }, 1500);
+            } else {
+                showMessage("❌ Correo o contraseña incorrectos", true);
+                passwordInput.value = "";
+                passwordInput.focus();
+            }
+        }
+
+        // Función para CERRAR SESIÓN
+        function handleLogout() {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const storedEmail = localStorage.getItem("userEmail");
+
+            animateButton(actionBtn);
+
+            // Validar campos vacíos
+            if (email === "" || password === "") {
+                showMessage("❌ Ingresa tu correo y contraseña para cerrar sesión", true);
+                return;
+            }
+
+            // Verificar que el correo coincida con el usuario logueado
+            if (email !== storedEmail) {
+                showMessage("❌ El correo no es correcto", true);
+                return;
+            }
+
+            // Verificar la contraseña
+            if (password === VALID_PASSWORD) {
+                // Cerrar sesión
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("userEmail");
+
+                showMessage("✅ Sesión cerrada exitosamente. Redirigiendo...", false);
+
+                // Redirigir a la página de login (para mostrar modo inicio)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showMessage("❌ Contraseña incorrecta", true);
+                passwordInput.value = "";
+                passwordInput.focus();
+            }
+        }
+
+        // Función principal que decide entre login o logout
+        function handleAction() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+            if (isLoggedIn) {
+                handleLogout();
+            } else {
+                handleLogin();
+            }
+        }
+
+        // Permitir "Enter" para enviar
+        function setupEnterKey() {
+            const handleEnter = (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    handleAction();
+                }
+            };
+
+            if (passwordInput) {
+                passwordInput.removeEventListener('keypress', handleEnter);
+                passwordInput.addEventListener('keypress', handleEnter);
+            }
+
+            if (emailInput) {
+                emailInput.removeEventListener('keypress', handleEnter);
+                emailInput.addEventListener('keypress', handleEnter);
+            }
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener("DOMContentLoaded", () => {
+            // Actualizar UI según estado de sesión
+            updateUI();
+
+            // Configurar evento del botón principal
+            if (actionBtn) {
+                actionBtn.removeEventListener('click', handleAction);
+                actionBtn.addEventListener('click', handleAction);
+            }
+const allImages = document.querySelectorAll("img");
+
+allImages.forEach(img => {
+    if (img.alt) {
+        img.title = img.alt;
+    }
+});
+
+            // Configurar tecla Enter
+            setupEnterKey();
+        });
+    </script>
+</body>
+</html>
